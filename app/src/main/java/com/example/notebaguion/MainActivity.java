@@ -37,7 +37,8 @@ public class MainActivity extends AppCompatActivity {
                 notes.add(note);
                 notes_adapter.notifyDataSetChanged();
                 etNote.setText("");
- //  Log.d("marc", "on click works");// Toast.makeText(getBaseContext(), "Click Add", Toast.LENGTH_SHORT);
+                // Log.d("marc", "on click works");
+                // Toast.makeText(getBaseContext(), "Click Add", Toast.LENGTH_SHORT);
             }
         });
     }
