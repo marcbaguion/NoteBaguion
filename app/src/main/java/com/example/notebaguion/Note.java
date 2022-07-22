@@ -1,5 +1,9 @@
 package com.example.notebaguion;
 
+import android.annotation.SuppressLint;
+
+import androidx.annotation.NonNull;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -24,13 +28,10 @@ public class Note {
         return created;
     }
 
-    public void setCreated(Date created) {
-        this.created = created;
-    }
-
+    @NonNull
     @Override
     public String toString() {
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
         String timeString = sdf.format(created);
         return "("+ timeString +")" + note;
     }
