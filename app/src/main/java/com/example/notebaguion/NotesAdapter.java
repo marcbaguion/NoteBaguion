@@ -1,6 +1,9 @@
 package com.example.notebaguion;
 
+import static com.example.notebaguion.Note.*;
+
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,12 +27,14 @@ public class NotesAdapter extends ArrayAdapter<Note> {
     List<Note> notes;
     FragmentManager fm;
     Note current;
+    NotesOpenHelper helper;
 
-    public NotesAdapter(@NonNull Context context, int resource, @NonNull List<Note> objects) {
+    public NotesAdapter(@NonNull Context context, int resource, @NonNull List<Note> objects, FragmentManager fm, NotesOpenHelper helper) {
         super(context, resource, objects);
         this.resource = resource;
         this.notes = objects;
         this.fm = fm;
+        this.helper = helper;
     }
 
     @NonNull
@@ -61,6 +66,14 @@ public class NotesAdapter extends ArrayAdapter<Note> {
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                int id = note.id;
+                // String selector = KEY_ID + "=?";
+                // String selectorArgs[] = {id+""};
+                String selector = KEY_ID + "=" + id;
+                String selectorArgs[] = null;
+                SQLiteDatabase db = helper.getWritableDatabase();
+                db.delete(NotesOpenHelper.DATABASE_TABLE, selector, selectorArgs);
+
                 notes.remove(note);
                 notifyDataSetChanged();
             }
