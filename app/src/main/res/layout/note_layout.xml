@@ -11,10 +11,11 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="8dp"
-        android:text="Test"
+        android:text="TextView"
         android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnClear"
+        app:layout_constraintHorizontal_bias="0.019"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -23,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
-        android:text="Test"
+        android:text="TextView"
         android:textSize="20sp"
         app:layout_constraintEnd_toStartOf="@+id/btnClear"
         app:layout_constraintTop_toTopOf="parent" />
