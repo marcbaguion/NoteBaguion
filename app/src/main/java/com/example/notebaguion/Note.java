@@ -2,12 +2,16 @@ package com.example.notebaguion;
 
 import android.annotation.SuppressLint;
 
-import androidx.annotation.NonNull;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Note {
+    public static final String KEY_ID = "_id";
+
+    public static final String KEY_NOTE_COLUMN = "NOTE_COLUMN";
+    public static final String KEY_NOTE_CREATED_COLUMN = "NOTE_CREATED_COLUMN";
+
     String note;
     Date created;
 
@@ -17,18 +21,25 @@ public class Note {
     }
 
     public String getNote() {
+
         return note;
     }
 
     public void setNote(String note) {
+
         this.note = note;
     }
 
+    public void setCreated(Date created) {
+        this.created = created;
+    }
+
     public Date getCreated() {
+
         return created;
     }
 
-    @NonNull
+
     @Override
     public String toString() {
         @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
