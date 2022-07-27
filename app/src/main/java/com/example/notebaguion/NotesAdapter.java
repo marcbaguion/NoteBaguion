@@ -2,6 +2,7 @@ package com.example.notebaguion;
 
 import static com.example.notebaguion.Note.*;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.view.LayoutInflater;
@@ -94,6 +95,15 @@ public class NotesAdapter extends ArrayAdapter<Note> {
         String new_note = etEdit.getText().toString();
         current.setNote(new_note);
         notifyDataSetChanged();
+        ContentValues cv = new ContentValues();
+        cv.put(KEY_NOTE_COLUMN, new_note);
+
+        String selector = KEY_ID + "=" + current.id;
+        String selectorArgs[] = null;
+
+        SQLiteDatabase db = helper.getWritableDatabase();
+        db.update(NotesOpenHelper.DATABASE_TABLE, cv, selector, selectorArgs);
+        current = null;
         current = null;
     }
     public void onCancelListenerMethod(DialogFragment dialog) {
