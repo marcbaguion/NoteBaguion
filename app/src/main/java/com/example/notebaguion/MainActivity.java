@@ -1,6 +1,10 @@
 package com.example.notebaguion;
 
-import static com.example.notebaguion.Note.*;
+
+import static com.example.notebaguion.Note.KEY_ID;
+import static com.example.notebaguion.Note.KEY_NOTE_COLUMN;
+import static com.example.notebaguion.Note.KEY_NOTE_CREATED_COLUMN;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
@@ -18,6 +22,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements EditNoteDialogFragment.EditNoteDialogListener {
 
@@ -43,11 +48,14 @@ public class MainActivity extends AppCompatActivity implements EditNoteDialogFra
 
         int INDEX_NOTE = cursor.getColumnIndexOrThrow(KEY_NOTE_COLUMN);
         int INDEX_ID = cursor.getColumnIndexOrThrow(KEY_ID);
+        int INDEX_CREATED = cursor.getColumnIndexOrThrow(KEY_NOTE_CREATED_COLUMN);
         while (cursor.moveToNext()) {
             String note = cursor.getString(INDEX_NOTE);
             int id = cursor.getInt(INDEX_ID);
+            long date = cursor.getLong(INDEX_CREATED);
             Note n = new Note(note);
             n.id = id;
+            n.setCreated(new Date(date));
             notes.add(n);
         }
 
@@ -75,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements EditNoteDialogFra
 
         ContentValues cv = new ContentValues();
         cv.put(KEY_NOTE_COLUMN, note);
+        cv.put(KEY_NOTE_CREATED_COLUMN, System.currentTimeMillis());
 
         SQLiteDatabase db = helper.getWritableDatabase();
         int id = (int) db.insert(NotesOpenHelper.DATABASE_TABLE, null, cv);
