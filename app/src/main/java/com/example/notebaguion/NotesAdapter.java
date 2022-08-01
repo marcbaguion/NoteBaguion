@@ -2,9 +2,12 @@ package com.example.notebaguion;
 
 import static com.example.notebaguion.Note.*;
 
+import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,9 +80,10 @@ public class NotesAdapter extends ArrayAdapter<Note> {
                 // String selectorArgs[] = {id+""};
                 String selector = KEY_ID + "=" + id;
                 String selectorArgs[] = null;
-                SQLiteDatabase db = helper.getWritableDatabase();
-                db.delete(NotesOpenHelper.DATABASE_TABLE, selector, selectorArgs);
-
+//                SQLiteDatabase db = helper.getWritableDatabase();
+//                db.delete(NotesOpenHelper.DATABASE_TABLE, selector, selectorArgs);
+                ContentResolver cr = getContext().getContentResolver();
+                cr.delete(NotesContentProvider.CONTENT_URI, selector, selectorArgs);
                 notes.remove(note);
                 notifyDataSetChanged();
             }
@@ -110,10 +114,13 @@ public class NotesAdapter extends ArrayAdapter<Note> {
         String selectorArgs[] = null;
         cv.put(KEY_NOTE_IMPORTANT_COLUMN, important);
 
-        SQLiteDatabase db = helper.getWritableDatabase();
-        db.update(NotesOpenHelper.DATABASE_TABLE, cv, selector, selectorArgs);
+//        SQLiteDatabase db = helper.getWritableDatabase();
+//        db.update(NotesOpenHelper.DATABASE_TABLE, cv, selector, selectorArgs);
+        ContentResolver cr = getContext().getContentResolver();
+        Uri rowUri = ContentUris.withAppendedId(NotesContentProvider.CONTENT_URI, current.id);
+        cr.update(rowUri, cv, null, null);
         current = null;
-        current = null;
+
     }
     public void onCancelListenerMethod(DialogFragment dialog) {
         current = null;

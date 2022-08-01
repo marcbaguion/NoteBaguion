@@ -3,7 +3,8 @@ package com.example.notebaguion;
 import android.app.Dialog;
         import android.content.Context;
         import android.content.DialogInterface;
-        import android.os.Bundle;
+import android.database.Cursor;
+import android.os.Bundle;
         import android.view.LayoutInflater;
         import android.widget.EditText;
 
@@ -11,6 +12,7 @@ import android.app.Dialog;
         import androidx.annotation.Nullable;
         import androidx.appcompat.app.AlertDialog;
         import androidx.fragment.app.DialogFragment;
+import androidx.loader.content.Loader;
 
 public class EditNoteDialogFragment extends DialogFragment {
     EditNoteDialogListener listener;
@@ -62,5 +64,12 @@ public class EditNoteDialogFragment extends DialogFragment {
     public interface EditNoteDialogListener{
         public void onEditListenerMethod(DialogFragment dialog);
         public void onCancelListenerMethod(DialogFragment dialog);
+
+        @NonNull
+        Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args);
+
+        void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor cursor);
+
+        void onLoaderReset(@NonNull Loader<Cursor> loader);
     }
 }
