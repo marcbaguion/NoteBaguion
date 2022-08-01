@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.CheckBox;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -59,7 +60,11 @@ public class NotesAdapter extends ArrayAdapter<Note> {
 
         TextView tvNote = noteView.findViewById(R.id.tvNote);
         TextView tvTime = noteView.findViewById(R.id.tvTime);
-        tvNote.setText(act_note);
+        if (note.important) {
+            tvNote.setText(act_note + " ★");
+        }else{
+            tvNote.setText(act_note);
+        }
         tvTime.setText(timeString);
 
         ImageButton btnDelete = noteView.findViewById(R.id.btnClear);
@@ -92,14 +97,18 @@ public class NotesAdapter extends ArrayAdapter<Note> {
     }
     public void onEditListenerMethod(DialogFragment dialog) {
         EditText etEdit = dialog.getDialog().findViewById(R.id.etEdit);
+        CheckBox cbEditImp = dialog.getDialog().findViewById(R.id.cbEditImp);
+        boolean important = cbEditImp.isChecked();
         String new_note = etEdit.getText().toString();
         current.setNote(new_note);
         notifyDataSetChanged();
         ContentValues cv = new ContentValues();
+        current.important = important;
         cv.put(KEY_NOTE_COLUMN, new_note);
 
         String selector = KEY_ID + "=" + current.id;
         String selectorArgs[] = null;
+        cv.put(KEY_NOTE_IMPORTANT_COLUMN, important);
 
         SQLiteDatabase db = helper.getWritableDatabase();
         db.update(NotesOpenHelper.DATABASE_TABLE, cv, selector, selectorArgs);

@@ -15,7 +15,7 @@
         android:text="Name" />
 
     <CheckBox
-        android:id="@+id/checkBox"
+        android:id="@+id/cbEditImp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Set as Important" />

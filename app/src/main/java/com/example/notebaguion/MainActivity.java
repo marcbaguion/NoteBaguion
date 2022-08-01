@@ -1,9 +1,6 @@
 package com.example.notebaguion;
 
-
-import static com.example.notebaguion.Note.KEY_ID;
-import static com.example.notebaguion.Note.KEY_NOTE_COLUMN;
-import static com.example.notebaguion.Note.KEY_NOTE_CREATED_COLUMN;
+import static com.example.notebaguion.Note.*;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
@@ -17,6 +14,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -49,13 +47,16 @@ public class MainActivity extends AppCompatActivity implements EditNoteDialogFra
         int INDEX_NOTE = cursor.getColumnIndexOrThrow(KEY_NOTE_COLUMN);
         int INDEX_ID = cursor.getColumnIndexOrThrow(KEY_ID);
         int INDEX_CREATED = cursor.getColumnIndexOrThrow(KEY_NOTE_CREATED_COLUMN);
+        int INDEX_IMPORTANT = cursor.getColumnIndexOrThrow(KEY_NOTE_IMPORTANT_COLUMN);
         while (cursor.moveToNext()) {
             String note = cursor.getString(INDEX_NOTE);
             int id = cursor.getInt(INDEX_ID);
+            int int_important = cursor.getInt(INDEX_IMPORTANT);
             long date = cursor.getLong(INDEX_CREATED);
             Note n = new Note(note);
             n.id = id;
             n.setCreated(new Date(date));
+            n.important = int_important == 1;
             notes.add(n);
         }
 
@@ -79,16 +80,20 @@ public class MainActivity extends AppCompatActivity implements EditNoteDialogFra
     public void addNoteMethod() {
         EditText etNote = findViewById(R.id.etNote);
         String note = etNote.getText().toString();
+        CheckBox cbImportant = findViewById(R.id.cbImportant);
         etNote.setText("");
+        boolean important = cbImportant.isChecked();
 
         ContentValues cv = new ContentValues();
         cv.put(KEY_NOTE_COLUMN, note);
         cv.put(KEY_NOTE_CREATED_COLUMN, System.currentTimeMillis());
+        cv.put(KEY_NOTE_IMPORTANT_COLUMN, important ? 1:0);
 
         SQLiteDatabase db = helper.getWritableDatabase();
         int id = (int) db.insert(NotesOpenHelper.DATABASE_TABLE, null, cv);
 
         Note n = new Note(note);
+        n.important = important;
         n.id = id;
         notes.add(n);
         notes_adapter.notifyDataSetChanged();

@@ -1,8 +1,6 @@
 package com.example.notebaguion;
 
-import static com.example.notebaguion.Note.KEY_ID;
-import static com.example.notebaguion.Note.KEY_NOTE_COLUMN;
-import static com.example.notebaguion.Note.KEY_NOTE_CREATED_COLUMN;
+import static com.example.notebaguion.Note.*;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -13,12 +11,13 @@ import androidx.annotation.Nullable;
 public class NotesOpenHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "myDatabase.db";
     public static final String DATABASE_TABLE = "Notes";
-    public static final int DATABASE_VERSION = 4;
+    public static final int DATABASE_VERSION = 7;
 
     private static final String DATABASE_CREATE = "CREATE TABLE " +
             DATABASE_TABLE + " (" +
             KEY_ID + " integer primary key autoincrement, " +
             KEY_NOTE_COLUMN + " text, " +
+            KEY_NOTE_IMPORTANT_COLUMN + " integer," +
             KEY_NOTE_CREATED_COLUMN + " long);";
 
     public NotesOpenHelper(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
